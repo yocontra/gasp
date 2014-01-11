@@ -18,7 +18,7 @@
 </tr>
 </table>
 
-* WARNING * - Work in progress. This doesn't actually exists yet - this is just for collecting ideas.
+WARNING - Work in progress. This doesn't actually exists yet - this is just for collecting ideas.
 
 ## Information
 
