@@ -18,7 +18,7 @@
 </tr>
 </table>
 
-WARNING - Work in progress. This doesn't actually exists yet - this is just for collecting ideas.
+WARNING - Work in progress. This doesn't actually exist yet - this is just for collecting ideas.
 
 ## Information
 
@@ -44,7 +44,7 @@ var config = {
     deps: ['clean'], // dependencies
 
     src: ['client/js/**/*.js', '!client/js/vendor/**'], // source files
-    dest: 'build/js', // output folder
+    dest: 'public/js', // output folder
 
     // plugins in the order you want them to run
     plugins: {
@@ -62,7 +62,7 @@ var config = {
     deps: ['clean'],
 
     src: 'client/img/**',
-    dest: 'public/js/',
+    dest: 'public/img',
 
     plugins: {
       watch: {
