@@ -33,6 +33,7 @@ A sample gaspfile.js
 // gasp will load plugins gulp-* plugins on demand
 
 var config = {
+  // this task is only here to demonstrate the dependency system
   clean: {
     src: 'public/**/*',
     plugins: {
