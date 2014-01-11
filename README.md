@@ -34,7 +34,7 @@ A sample gaspfile.js
 
 var config = {
   clean: {
-    src: 'build/**/*',
+    src: 'public/**/*',
     plugins: {
       rimraf: null // just use null for no arguments to the plugin
     }
