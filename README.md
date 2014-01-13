@@ -26,19 +26,16 @@ gasp is a very thin declarative layer on top of gulp. gasp works with gulp plugi
 
 ## Usage
 
-A sample gaspfile.js
+A sample gaspfile.json - gaspfiles are declarative so they are pure json (you can use a .js file if you need to, just export the object)
 
 ```javascript
 // plugins used: gulp-concat, gulp-uglify, gulp-watch, gulp-rimraf
 // gasp will load plugins gulp-* plugins on demand
-
-var config = {
+{
   // this task is only here to demonstrate the dependency system
   clean: {
     src: 'public/**/*',
-    plugins: {
-      rimraf: null // just use null for no arguments to the plugin
-    }
+    plugins: ['rimraf'] // just use a string if you have no arguments
   },
 
   scripts: {
@@ -48,15 +45,14 @@ var config = {
     dest: 'public/js', // output folder
 
     // plugins in the order you want them to run
-    plugins: {
-      watch: {
-        name: "js" // plugin uses this option for logging
-      },
-      concat: 'all.js',
-      uglify: {
-        mangle: false
-      },
-    }
+    // when you want to pass arguments to a task
+    // just use an array where the first item is the plugin name
+    // and all other items are the arguments
+    plugins: [
+      'watch',
+      ['concat', 'all.js'],
+      'uglify'
+    ]
   },
 
   images: {
@@ -65,18 +61,12 @@ var config = {
     src: 'client/img/**',
     dest: 'public/img',
 
-    plugins: {
-      watch: {
-        name: "img"
-      },
-      imagemin: {
-        optimizationLevel: 5
-      }
-    }
+    plugins: [
+      'watch',
+      ['imagemin', {optimizationLevel: 5}]
+    ]
   }
-};
-
-module.exports = config;
+}
 ```
 
 ## LICENSE
