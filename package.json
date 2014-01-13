@@ -6,15 +6,36 @@
   "repository": "git://github.com/wearefractal/gasp.git",
   "author": "Fractal <contact@wearefractal.com> (http://wearefractal.com/)",
   "main": "./index.js",
+  "tags": [
+    "build",
+    "stream",
+    "system",
+    "declarative"
+  ],
+  "bin": {
+    "gasp": "./bin/gasp.js"
+  },
   "dependencies": {
-    "gulp": "~3.3.0"
+    "gulp": "~3.3.0",
+    "semver": "~2.2.1",
+    "optimist": "~0.6.0",
+    "pretty-hrtime": "~0.2.0",
+    "resolve": "~0.6.1",
+    "findup-sync": "~0.1.2",
+    "gulp-util": "~2.2.9"
   },
   "devDependencies": {
     "mocha": "*",
-    "should": "*"
+    "mocha-lcov-reporter": "*",
+    "coveralls": "*",
+    "istanbul": "*",
+    "should": "*",
+    "rimraf": "*",
+    "jshint": "*"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha --reporter spec && jshint",
+    "coveralls": "istanbul cover _mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage"
   },
   "engines": {
     "node": ">= 0.9.0"

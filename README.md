@@ -18,56 +18,56 @@
 </tr>
 </table>
 
-WARNING - Work in progress. This doesn't actually exist yet - this is just for collecting ideas.
+WARNING - Work in progress - this is just for collecting ideas and tinkering.
 
 ## Information
 
-gasp is a very thin declarative layer on top of gulp. gasp works with gulp plugins. gasp should only be used for very simple build processes. use gulp if you need something faster/more complex
+gasp is a very thin declarative layer on top of gulp. gasp works with gulp plugins. gasp should only be used for very simple build processes
 
 ## Usage
 
-A sample gaspfile.json - gaspfiles are declarative so they are pure json (you can use a .js file if you need to, just export the object)
+A sample gaspfile.coffee - gaspfiles can be js, json, whatever. it just needs to be an object when required.
 
-```javascript
-// plugins used: gulp-concat, gulp-uglify, gulp-watch, gulp-rimraf
-// gasp will load plugins gulp-* plugins on demand
-{
-  // this task is only here to demonstrate the dependency system
-  clean: {
-    src: 'public/**/*',
-    plugins: ['rimraf'] // just use a string if you have no arguments
-  },
+```coffee-script
+less = require "gulp-less"
+watch = require "gulp-watch"
+jshint = require "gulp-jshint"
+stylish = require "jshint-stylish"
 
-  scripts: {
-    deps: ['clean'], // dependencies
+lessOpt =
+  paths: [
+    "static/src/less",
+    "static/src/bootstrap"
+  ]
 
-    src: ['client/js/**/*.js', '!client/js/vendor/**'], // source files
-    dest: 'public/js', // output folder
-
-    // plugins in the order you want them to run
-    // when you want to pass arguments to a task
-    // just use an array where the first item is the plugin name
-    // and all other items are the arguments
-    plugins: [
-      'watch',
-      ['concat', 'all.js'],
-      'uglify'
+module.exports =
+  css:
+    src: "./static/src/*.less"
+    pipeline: [
+      watch,
+      # when you need to pass in arguments
+      # just bind them to the plugin
+      less.bind(null, lessOpt)
+      "./static/dist/css"
     ]
-  },
 
-  images: {
-    deps: ['clean'],
-
-    src: 'client/img/**',
-    dest: 'public/img',
-
-    plugins: [
-      'watch',
-      ['imagemin', {optimizationLevel: 5}]
+  js:
+    src: "./js/*.js"
+    pipeline: [
+      watch,
+      jshint,
+      jshint.reporter.bind(null, stylish)
     ]
-  }
-}
+
+  default:
+    deps: ["js", "css"]
 ```
+
+If you need to do something more complex you can require gulp into the file and define some tasks, or replace your task object with a normal gulp task function.
+
+## CLI
+
+CLI takes the same options as gulp
 
 ## LICENSE
 
