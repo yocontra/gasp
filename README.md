@@ -47,7 +47,9 @@ module.exports =
       watch,
       # when you need to pass in arguments
       # just bind them to the plugin
-      less.bind(null, lessOpt)
+      less.bind(null, lessOpt),
+      # a string in your pipeline
+      # is an output folder
       "./static/dist/css"
     ]
 
