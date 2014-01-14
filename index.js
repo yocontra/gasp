@@ -34,7 +34,7 @@ var loadTask = function(taskName){
 };
 
 module.exports = function(gaspfile) {
-  Object.keys(graspfile).forEach(loadTask);
+  Object.keys(gaspfile).forEach(loadTask);
   return gulp;
 };
 
