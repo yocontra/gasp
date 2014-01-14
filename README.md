@@ -36,7 +36,7 @@ stylish = require "jshint-stylish"
 
 module.exports =
   css:
-    src: "./static/src/*.less"
+    src: ["./static/css/*.less", "./static/css/bootstrap/*.less"]
     pipeline: [
       watch,
       less,
