@@ -34,20 +34,12 @@ watch = require "gulp-watch"
 jshint = require "gulp-jshint"
 stylish = require "jshint-stylish"
 
-lessOpt =
-  paths: [
-    "static/src/less",
-    "static/src/bootstrap"
-  ]
-
 module.exports =
   css:
     src: "./static/src/*.less"
     pipeline: [
       watch,
-      # when you need to pass in arguments
-      # just bind them to the plugin
-      less.bind(null, lessOpt),
+      less,
       # a string in your pipeline
       # is an output folder
       "./static/dist/css"
@@ -58,6 +50,9 @@ module.exports =
     pipeline: [
       watch,
       jshint,
+      # when you need to pass in arguments
+      # just bind them to the plugin function
+      # there could be sugar for this soon
       jshint.reporter.bind(null, stylish)
     ]
 
