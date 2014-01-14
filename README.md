@@ -57,6 +57,9 @@ module.exports =
     ]
 
   default:
+    # you can specify other tasks as dependencies
+    # to create aggregate tasks
+    # or just run the other tasks before yours starts
     deps: ["js", "css"]
 ```
 
