@@ -39,7 +39,7 @@ uglify = require 'gulp-uglify'
 build =
   css:
     src: ['./static/css/*.less', './static/css/bootstrap/*.less']
-    dest: './static/dist/css'
+    dest: './static/dist/css/'
 
     partial: true # dont fail on errors
     watch: true # watch the files
@@ -70,10 +70,10 @@ build =
 
     pipeline: [
       concat.bind(null, 'app.js'), # bind arguments into a stream constructor
-      './dist', # you can specify destinations inline by putting a string in here
+      './dist/', # you can specify destinations inline by putting a string in here
       rename.bind(null, 'app.min.js'),
       uglify,
-      './dist'
+      './dist/'
     ]
 
   # you can give an array of tasks to create aggregate tasks
