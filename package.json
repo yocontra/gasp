@@ -16,13 +16,11 @@
     "gasp": "./bin/gasp.js"
   },
   "dependencies": {
-    "gulp": "~3.3.0",
-    "semver": "~2.2.1",
-    "optimist": "~0.6.0",
-    "pretty-hrtime": "~0.2.0",
-    "resolve": "~0.6.1",
-    "findup-sync": "~0.1.2",
-    "gulp-util": "~2.2.9"
+    "gulp": "^3.6.0",
+    "lazypipe": "^0.2.1",
+    "gulp-plumber": "^0.6.0",
+    "gulp-watch": "^0.5.4",
+    "gulp-cached": "0.0.3"
   },
   "devDependencies": {
     "mocha": "*",

@@ -1,40 +1,65 @@
 var gulp = require('gulp');
+var lazypipe = require('lazypipe');
+var plumber = require('gulp-plumber');
+var watch = require('gulp-watch');
+var cache = require('gulp-cached');
 
-var loadPlugin = function(plug) {
-  if (typeof plug === 'string') {
-    return gulp.dest.bind(null, plug);
+var loadPipeline = function(taskName, taskConfig) {
+  var factory = lazypipe();
+
+  // TODO: default partial and cache to true
+  if (taskConfig.partial) {
+    factory = factory.pipe(plumber);
   }
-  if (typeof plug === 'function') {
-    return plug;
+
+  if (taskConfig.watch) {
+    factory = factory.pipe(watch);
   }
-  throw new Error('Invalid plugin: ' + plug);
+
+  if (taskConfig.cache) {
+    factory = factory.pipe(cache, taskName);
+  }
+
+  if (taskConfig.src) {
+    factory = factory.pipe(gulp.src, taskConfig.src);
+  }
+
+  if (Array.isArray(taskConfig.pipeline)) {
+    taskConfig.pipeline.forEach(function(plugin){
+      if (typeof plugin === 'string') {
+        factory = factory.pipe(gulp.dest, plugin);
+      } else {
+        factory = factory.pipe(plugin);
+      }
+    });
+  }
+
+  if (typeof taskConfig.pipeline === 'function') {
+    factory = factory.pipe(taskConfig.pipeline);
+  }
+
+  if (taskConfig.dest) {
+    factory = factory.pipe(gulp.dest, taskConfig.dest);
+  }
+  return factory;
 };
 
-var loadTask = function(taskName){
-  var taskConfig = graspfile[taskName];
-  
-  if (typeof taskConfig === 'function') {
-    fn = taskConfig;
+var loadTask = function(taskName, taskConfig){
+  // handle task aliases
+  if (Array.isArray(taskConfig)) {
+    gulp.task(taskName, taskConfig);
+  } else if (typeof taskConfig === 'function') {
+    gulp.task(taskName, taskConfig.deps, taskConfig);
   } else {
-    if (!Array.isArray(taskConfig.deps)) taskConfig.deps = [];
-    fn = function(){
-      var stream = gulp.src(taskConfig.src);
-
-      // for each plugin pipe stream to it
-      if (Array.isArray(taskConfig.pipeline)) {
-        taskConfig.pipeline.forEach(function(plugin){
-          stream = stream.pipe(loadPlugin(plugin));
-        });
-      }
-      return stream;
-    };
+    gulp.task(taskName, taskConfig.deps, loadPipeline(taskName, taskConfig));
   }
-  gulp.task(taskName, taskConfig.deps, fn);
   return gulp;
 };
 
 module.exports = function(gaspfile) {
-  Object.keys(gaspfile).forEach(loadTask);
+  Object.keys(gaspfile).forEach(function(taskName){
+    loadTask(taskName, gaspfile[taskName]);
+  });
   return gulp;
 };
 
