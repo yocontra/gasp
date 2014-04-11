@@ -86,7 +86,7 @@ gasp build
 If you need to do something more complex you can simple use functions for your tasks like so:
 
 ```coffee-script
-build = ->
+build: ->
   gulp.src(['./static/css/*.less', './static/css/bootstrap/*.less'])
     .pipe(less())
     .pipe(gulp.dest('./static/dist/css'))
