@@ -62,7 +62,7 @@ build =
       jshint.reporter
     ]
 
-  compile:
+  js:
     deps: ['lint'] # you can specify dependencies that run first
 
     src: './js/*.js'
